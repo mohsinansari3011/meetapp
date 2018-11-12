@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-//import swal from 'sweetalert';
+import swal from 'sweetalert';
 import * as firebase from '../../config/firebase'
 import coffeeimg from '../../images/coffee.png'
 import juiceimg from '../../images/juice.png'
 import cocktailimg from '../../images/cocktail.png'
 import profileimg from '../../images/profileimg.jpg'
 import { Link } from "react-router-dom";
+
+
 
 class ProfileScreen extends Component {
 
@@ -24,7 +26,7 @@ class ProfileScreen extends Component {
 
 
 
-
+        this.updateProfile = this.updateProfile.bind(this);
     
     }
 
@@ -38,7 +40,7 @@ componentDidMount(){
                 .then((query) => {
                     query.forEach((doc) => {
                         this.setState({ userdata: doc.data(),
-                        
+                        docid : doc.id,
                         nickname : doc.data().nickname,
                         phonenumber: doc.data().phonenumber,                        
                         image1 : doc.data().image1,
@@ -64,6 +66,33 @@ componentDidMount(){
 
 }
 
+
+
+updateProfile(){
+
+    const { docid, nickname, phonenumber, image1, image2, image3, beverages, duration} = this.state;
+
+    try {
+        firebase.db.collection("tbluserprofile").doc(docid).update({
+
+            nickname,
+            phonenumber,
+            image1,
+            image2,
+            image3,
+            beverages,
+            duration
+
+        });
+
+        swal("Good job!", "Profile has been updated", "success");
+
+    } catch (error) {
+        swal("Bad job!", error , "error");
+    }
+   
+
+}
 
 
 checkBeaverages(){
@@ -263,12 +292,12 @@ checkBeaverages(){
             <h3>Select Duration of Meeting</h3>
 
             <input type="checkbox" onChange={this.selectduration.bind(this)} value="20" id="cb20" /> <label htmlFor="cb20">20 Min </label>
-            <input type="checkbox" onChange={this.selectduration.bind(this)} value="60" id="cb60" /> <label htmlFor="cb60">40 Min </label>
+            <input type="checkbox" onChange={this.selectduration.bind(this)} value="60" id="cb60" /> <label htmlFor="cb60">60 Min </label>
             <input type="checkbox" onChange={this.selectduration.bind(this)} value="120" id="cb120" /> <label htmlFor="cb120">120 Min </label>
 
             <br />
                 
-            <button className="btn btn-primary" >Update Profile</button>
+            <button className="btn btn-primary" onClick={this.updateProfile} >Update Profile</button>
             <Link to="/dashboard"> <input className="btn btn-primary" type="button" value="back" /> </Link>
                  </div>)
     }

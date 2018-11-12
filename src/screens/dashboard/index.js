@@ -433,7 +433,7 @@ class Dashboard extends Component {
             <h1>Select Duration of Meeting</h1>
             
             <input type="checkbox" onChange={this.selectduration.bind(this)} value="20" id="cb20" /> <label htmlFor="cb20">20 Min </label>
-            <input type="checkbox" onChange={this.selectduration.bind(this)} value="60" id="cb60" /> <label htmlFor="cb60">40 Min </label>
+            <input type="checkbox" onChange={this.selectduration.bind(this)} value="60" id="cb60" /> <label htmlFor="cb60">60 Min </label>
             <input type="checkbox" onChange={this.selectduration.bind(this)} value="120" id="cb120" /> <label htmlFor="cb120">120 Min </label>
             <br /><br />
             <input className="btn btn-primary" type="button" value="back" onClick={this.BackS3} />
