@@ -6,25 +6,29 @@ import accepting from "../../images/accept.png"
 import rejecting from "../../images/deny.png"
 import defaultimg from '../../images/default.jpg'
 
+import coffeeimg from '../../images/coffee.png'
+import juiceimg from '../../images/juice.png'
+import cocktailimg from '../../images/cocktail.png'
+import profileimg from '../../images/profileimg.jpg'
 import AddToCalendar from 'react-add-to-calendar'
 import { Card, CardWrapper } from 'react-swipeable-cards';
 
 
 
-// firebase.db.collection("tblusermeetings")
-//     .onSnapshot(function (snapshot) {
-//         snapshot.docChanges().forEach(function (change) {
-//             if (change.type === "added") {
-//                 console.log("New matchername: ", change.doc.data().matchername);
-//             }
-//             if (change.type === "modified") {
-//                 console.log("Modified matchername: ", change.doc.data().matchername);
-//             }
-//             if (change.type === "removed") {
-//                 console.log("Removed matchername: ", change.doc.data().matchername);
-//             }
-//         });
-//     });
+firebase.db.collection("tblusermeetings").where("status", "==","PENDING").orderBy("creationtime","desc")
+    .onSnapshot(function (snapshot) {
+        snapshot.docChanges().forEach(function (change) {
+            if (change.type === "added") {
+                console.log("New matchername: ", change.doc.data().matchername);
+            }
+            // if (change.type === "modified") {
+            //     console.log("Modified matchername: ", change.doc.data().matchername);
+            // }
+            // if (change.type === "removed") {
+            //     console.log("Removed matchername: ", change.doc.data().matchername);
+            // }
+        });
+    });
 
 
 
@@ -306,23 +310,28 @@ class Dashboard extends Component {
             <input onChange={this.changefile.bind(this)} id="fileInput1" type="file" style={{ display: "none", }} />
             
                 <div className="col-md-4">
-            <img id="image1" alt="picutre" src="http://blog.ramboll.com/fehmarnbelt/wp-content/themes/ramboll2/images/profile-img.jpg"
-                alt="" className="logo" width="120" height="120" onClick={this.clickfile.bind(this)} />
+                    <img id="image1" alt="picutre" src={profileimg}
+                        className="logo" width="120" height="120" onClick={this.clickfile.bind(this)} />
           </div>
                 <div className="col-md-4">
-            <img id="image2" alt="picutre" src="http://blog.ramboll.com/fehmarnbelt/wp-content/themes/ramboll2/images/profile-img.jpg"
-                alt="" className="logo" width="120" height="120" onClick={this.clickfile.bind(this)} />
+                    <img id="image2" alt="picutre" src={profileimg}
+                         className="logo" width="120" height="120" onClick={this.clickfile.bind(this)} />
          </div>
                 <div className="col-md-4">
-            <img id="image3" alt="picutre" src="http://blog.ramboll.com/fehmarnbelt/wp-content/themes/ramboll2/images/profile-img.jpg"
-                alt="" className="logo" width="120" height="120" onClick={this.clickfile.bind(this)} />
+                    <img id="image3" alt="picutre" src={profileimg}
+                        className="logo" width="120" height="120" onClick={this.clickfile.bind(this)} />
             </div>
             </div>
 
-            <br />
-            <input className="btn btn-primary"  type="button" value="back" onClick={this.BackS2} />
-            <input className="btn btn-primary"  type="button" value="next" onClick={this.NextS2} />
-
+            <br />  <br />
+            <div class="row">
+            <div className="mt-2 col-md-12">
+                    <input className="btn btn-primary" type="button" value="back" onClick={this.BackS2} /> </div></div>
+            
+            <br /><div class="row">
+            <div className="mt-2 col-md-12">
+                    <input className="btn btn-primary" type="button" value="next" onClick={this.NextS2} /></div></div>
+            
         </div>);
     }
 
@@ -345,7 +354,7 @@ class Dashboard extends Component {
         this.setState({
             beverages,
         })
-        console.log(beverages);
+        //console.log(beverages);
 
         localStorage.setItem("beverages", beverages);
 
@@ -357,7 +366,7 @@ class Dashboard extends Component {
 
         const { duration } = this.state;
 
-        console.log("value  ", e.target.value);
+        //console.log("value  ", e.target.value);
         if (e.target.checked) {
             duration.push(e.target.value);
         } else {
@@ -410,25 +419,26 @@ class Dashboard extends Component {
 
         return (<div>
             <h1>Select Beverages</h1>
-            <img alt="Coffee" src="https://via.placeholder.com/350x150" height="25px" width="25px" />
+            <img alt="Coffee" src={coffeeimg} height="25px" width="25px" />
             <input type="checkbox" onChange={this.selectbeverages.bind(this)} value="Coffee" id="cbcoffee" /> <label htmlFor="cbcoffee">Coffee</label>
 
-            <img alt="Juice" src="https://via.placeholder.com/350x150" height="25px" width="25px" />
+            <img alt="Juice" src={juiceimg} height="25px" width="25px" />
             <input type="checkbox" onChange={this.selectbeverages.bind(this)} value="Juice" id="cbjuice" /><label htmlFor="cbjuice">Juice</label>
 
-            <img alt="Cocktail" src="https://via.placeholder.com/350x150" height="25px" width="25px" />
+            <img alt="Cocktail" src={cocktailimg} height="25px" width="25px" />
             <input type="checkbox" onChange={this.selectbeverages.bind(this)} value="Cocktail" id="cbcocktail" /><label htmlFor="cbcocktail">Cocktail</label>
 
 
-            <br /><br />
-            duration of meeting
+            <br />
+            <h1>Select Duration of Meeting</h1>
+            
             <input type="checkbox" onChange={this.selectduration.bind(this)} value="20" id="cb20" /> <label htmlFor="cb20">20 Min </label>
             <input type="checkbox" onChange={this.selectduration.bind(this)} value="60" id="cb60" /> <label htmlFor="cb60">40 Min </label>
             <input type="checkbox" onChange={this.selectduration.bind(this)} value="120" id="cb120" /> <label htmlFor="cb120">120 Min </label>
             <br /><br />
-            <input type="button" value="back" onClick={this.BackS3} />
+            <input className="btn btn-primary" type="button" value="back" onClick={this.BackS3} />
 
-            {gotomap && <Link to="/maps"> <input type="button" value="next" /> </Link>}
+            {gotomap && <Link to="/maps"> <input className="btn btn-primary" type="button" value="next" /> </Link>}
 
 
         </div>);
@@ -559,11 +569,11 @@ getSelection(){
     // }
 
     onSwipeLeft(data) {
-        console.log("I was swiped left.");
+        //console.log("I was swiped left.");
     }
 
     onSwipeRight(displayname , uid) {
-        console.log("I was swiped right.", displayname);
+        //console.log("I was swiped right.", displayname);
         //swal("Meet", "Do you want to meet " + dat,"info")
 
         swal({
@@ -595,7 +605,7 @@ getSelection(){
     }
 
     onDoubleTap(data) {
-        console.log("I was double tapped.");
+        //console.log("I was double tapped.");
     }
 
 
@@ -639,7 +649,7 @@ getSelection(){
 
 
         try {
-            return (<div> <h1>Select A person for a Meeting!!</h1> <CardWrapper addEndCard={this.getEndCard.bind(this)}>
+            return (<div> <h1>Select a person for a Meeting!!</h1> <CardWrapper addEndCard={this.getEndCard.bind(this)}>
                 {ShowMeetingArray}
             </CardWrapper>   </div>);
 
@@ -688,11 +698,12 @@ getSelection(){
             {currentuser ? <ul>
                 {currentuser.providerData.map((user, index) => {
                     return (
-                        <li key={index}> Welcome {user.displayName}--{user.email}</li>
+                        <li key={index}> Welcome {user.displayName}</li>
+                        
                     )
                 }
                 )}
-            </ul> : <div></div>
+                <li> <Link to="/profile"> <input className="btn btn-primary" type="button" value="Update Profile" /> </Link> </li></ul> : <div></div>
 
 
             }
@@ -708,9 +719,11 @@ getSelection(){
                            {meetinglist ? <div>
                            {this.setMeetingListCards()}
                             </div> : <div>
-                             “You haven’t done any meeting yet!”, try creating a new meeting! And a button, “Set a meeting!”.
-                            {booluserMeeting ? this.setUserMeeting() : <div></div>} 
-                            <button className="btn btn-primary" onClick={this.getAllusers.bind(this)}>Set a Meeting!!</button>
+                                <button className="btn btn-primary" onClick={this.getAllusers.bind(this)}>Set a Meeting!!</button>
+                                {booluserMeeting ? this.setUserMeeting() : <div> “You haven’t done any meeting yet!”, try creating a new meeting! And a button, “Set a meeting!”. 
+                                    
+                                </div>} 
+                                
             </div>}
 
                         </div> : <div>

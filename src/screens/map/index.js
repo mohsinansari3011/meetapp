@@ -67,21 +67,29 @@ class Mapscreen extends Component {
 
     profileScreen4() {
         const { coords } = this.state;
-
+        let Mapstyle = { 'textAlign': '-webkit-center', 'marginTop': '20px' }
         return (
-            <div>
 
+
+            <div className="row">
+                <div className="col-md-12" style={Mapstyle}>
+                    <input style={{ width: `100%` }} className="btn btn-primary" type="button" value="submit" onClick={this.submitDatatoFirestore} />
+                   </div>
+                   
+                    <div className="col-md-12" style={Mapstyle}>
+                    
                 {coords && <MyMapComponent
                     isMarkerShown
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJdeN0I2e7USVUmXotyl2hzgqKzdfHY1M&amp;v=3.exp&libraries=geometry,drawing,places"
                     loadingElement={<div style={{ height: `80%`, width: `100%` }} />}
-                    containerElement={<div style={{ height: `80vh`, width: `100vh` }} />}
+                        containerElement={<div style={{ height: `80vh`, width: `100%` }} />}
                     mapElement={<div style={{ height: `80%`, width: `100%` }} />}
                     coords={coords}
                     updateCoords={this.updateCoords}
                 />}
 
-                <input type="button" value="submit" onClick={this.submitDatatoFirestore} />
+                
+            </div>
             </div>
 
         );
@@ -151,7 +159,11 @@ submitDatatoFirestore(){
     render(){
 
 
-        return (<div>  <button onClick={this.getcords.bind(this)}>getcords</button> {this.profileScreen4()}</div>)
+        return (<div>  
+            
+            {/* <button onClick={this.getcords.bind(this)}>getcords</button> */}
+        
+         {this.profileScreen4()}</div>)
     }
 
 

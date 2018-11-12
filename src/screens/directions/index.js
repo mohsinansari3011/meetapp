@@ -32,10 +32,15 @@ class directionscreen extends Component {
         this.ExploreApiCoords = this.ExploreApiCoords.bind(this);
         this.onSearch = this.onSearch.bind(this);
         this.getDirections = this.getDirections.bind(this);
+        this.setPositionFromFirebase = this.setPositionFromFirebase.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
     }
 
 
 
+    setPositionFromFirebase(){
+       
+    }
 
     setPosition() {
         navigator.geolocation.getCurrentPosition(position => {
@@ -48,32 +53,63 @@ class directionscreen extends Component {
     }
 
 
+
+getCurrentUser(){
+
+    //console.log("componentDidMount");
+    firebase.auth.onAuthStateChanged(user => {
+        if (user) {
+            //console.log(user);
+            this.setState({ currentuser: user });
+            // this.setPosition();
+
+
+            // setTimeout(() => {
+            //     this.ExploreApiCoords();
+            // }, 2000);
+
+
+
+        } else {
+            console.info('Must be authenticated');
+            this.props.history.push('/');
+        }
+    });
+
+
+
+}
+
+
     componentDidMount() {
 
-        firebase.auth.onAuthStateChanged(user => {
-            if (user) {
-             
-                this.setState({ currentuser: user });
-                // this.setPosition();
-                //console.log("componentDidMount");
+         
+      
+        
+        setTimeout(() => {
 
-                // setTimeout(() => {
-                //     this.ExploreApiCoords();
-                // }, 2000);
-              
-               
+            //this.setPositionFromFirebase();
+            //const { latcord, lngcord} = this.state;
+            //console.log(latcord, lngcord)
 
-            } else {
-                console.info('Must be authenticated');
-                this.props.history.push('/');
-            }
-        });
+            const { currentuser } = this.state;
+           // console.log(currentuser, " currentuser");
+            firebase.db.collection("tbluserprofile").where("uid", "==", currentuser.uid).get()
+                .then((query) => {
+                    query.forEach((doc) => {
+                        this.setState({ latcord: doc.data().latitude, lngcord: doc.data().longitude })
+                        this.ExploreApiCoords(baseurl.concat("ll=", doc.data().latitude, ",", doc.data().longitude));
+                    });
+                })
 
 
-
+            
+        }, 1000);
 
 
     }
+
+
     // getDerivedStateFromProps(props ,state)
     // {
     //     console.log(props, "getDerivedStateFromProps", state);
@@ -83,13 +119,11 @@ class directionscreen extends Component {
     componentWillMount(){
         //const { locationNear } = this.state;
 
-        //console.log("componentWillMount");
-        this.setPosition();
+       // console.log("componentWillMount");
 
-         setTimeout(() => {
-             const { coords } = this.state;
-             this.ExploreApiCoords(baseurl.concat("ll=", coords.latitude, ",", coords.longitude));
-                }, 1000);
+      
+        this.getCurrentUser();
+        this.setPosition();
 
 
 
@@ -183,12 +217,12 @@ class directionscreen extends Component {
 
     getDirections(selectedCoords) {
 
-        const { coords } = this.state;
+        const { latcord , lngcord } = this.state;
        this.setState({ selectedCoords });
        const DirectionsService = new google.maps.DirectionsService();
 
         DirectionsService.route({
-            origin: new google.maps.LatLng(coords.latitude, coords.longitude),
+            origin: new google.maps.LatLng(latcord, lngcord),
             destination: new google.maps.LatLng(selectedCoords.lat , selectedCoords.Lng),
             travelMode: google.maps.TravelMode.DRIVING,
         }, (result, status) => {
@@ -209,7 +243,7 @@ class directionscreen extends Component {
 
         if (e.target.value.length > 4) {
             let url = baseurl.concat("near=", e.target.value);
-            //console.log(url);
+            console.log(url);
             this.ExploreApiCoords(url);
         }
     }
@@ -281,14 +315,15 @@ showCalenderscreen(selectedCoords , venue){
 
         try {
 
-            const { currentuser } = this.state;
+            const { currentuser , latcord , lngcord } = this.state;
             let useruid = currentuser.uid;
             let userdname = currentuser.displayName;
             let status = "PENDING";
-
+            let userCoords = {latcord , lngcord}
+            let creationtime = Date();
             //console.log(useruid, userdname, status, matchername, matcheruid, selectedCoords, venue, date);
 
-            firebase.db.collection("tblusermeetings").add({ useruid, userdname, matchername, matcheruid, selectedCoords, venue, date, status })
+            firebase.db.collection("tblusermeetings").add({ useruid, userdname, matchername, matcheruid, selectedCoords, userCoords, venue, date, status, creationtime})
                 .then().catch(err => swal('There was an error:', err, "error"))
 
         } catch (error) {
@@ -319,7 +354,7 @@ onsendRequest()
 
         swal({
         title: "Send the request?",
-        text: "Do you want to Send the request? " + date + " !!!! " + time,
+        text: "Do you want to Send the request? " + date + " !!!! ",
         icon: "info",
         buttons: ["Cancel", "Yes"],
     })
