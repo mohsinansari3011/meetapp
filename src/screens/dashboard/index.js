@@ -183,6 +183,9 @@ class Dashboard extends Component {
 
     componentDidUpdate() {
 
+        
+
+        
         // const img1 = localStorage.getItem("image1");
         // const img2 = localStorage.getItem("image2");
         // const img3 = localStorage.getItem("image3");
@@ -225,19 +228,25 @@ class Dashboard extends Component {
         }
     }
 
+    
+
+    componentWillMount(){
+
+        
+    }
     componentDidMount() {
 
+       
         firebase.auth.onAuthStateChanged(user => {
             if (user) {
 
-                this.getCurrentUser(user);
+                //this.getCurrentUser(user);
                 this.setState({ currentuser: user });
             } else {
                 console.info('Must be authenticated');
                 this.props.history.push('/');
             }
         });
-
 
     }
 
@@ -465,7 +474,7 @@ getSelection(){
 
 
         const { currentuser } = this.state;
-
+        console.log(currentuser);
         if (currentuser) {
             var meetingArray = [];
             firebase.db.collection("tbluserprofile").get()
@@ -478,6 +487,7 @@ getSelection(){
 
                     if (meetingArray) {
                         this.setState({ meetData: meetingArray, meetinglist: true });
+                        console.log(meetingArray);
                     }
 
 
@@ -614,7 +624,8 @@ getSelection(){
 
         const { meetData } = this.state;
 
-        //console.log(meetData);
+        
+        console.log(meetData);
 
         const ShowMeetingArray = meetData.map((doc) => {
 
@@ -690,7 +701,7 @@ getSelection(){
         //const dashboardsrc = localStorage.getItem("dashboard");
         //console.log(currentuser ," render2");
 
-        
+        console.log(meetinglist," meetinglist");
         return (<div> <h1>Dashboard!!! </h1>
 
 
@@ -717,7 +728,10 @@ getSelection(){
                         {this.getAllrequest()}
 
                            {meetinglist ? <div>
+
                            {this.setMeetingListCards()}
+
+                           
                             </div> : <div>
                                 <button className="btn btn-primary" onClick={this.getAllusers.bind(this)}>Set a Meeting!!</button>
                                 {booluserMeeting ? this.setUserMeeting() : <div> “You haven’t done any meeting yet!”, try creating a new meeting! And a button, “Set a meeting!”. 
