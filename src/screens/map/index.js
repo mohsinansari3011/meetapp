@@ -117,7 +117,7 @@ submitDatatoFirestore(){
         pimage = profile.photoURL;
         })
 
-    console.log(currentuser.uid);
+    //console.log(currentuser.uid);
 
     const niname = localStorage.getItem("niname");
     const pnumber = localStorage.getItem("pnumber");
@@ -141,7 +141,7 @@ submitDatatoFirestore(){
         firebase.db.collection("tbluserprofile").add({ uid, email, displayname, puid, pimage, nickname: niname, phonenumber: pnumber, image1, image2, image3, beverages, duration, latitude, longitude })
             .then().catch(err => swal('There was an error:',err,"error"))
 
-        localStorage.setItem("dashboard","showmeeting");
+        //localStorage.setItem("dashboard","showmeeting");
         swal("Good Job!", "Successfully Updated", "success");
         this.props.history.push('/dashboard');
 
@@ -160,9 +160,6 @@ submitDatatoFirestore(){
 
 
         return (<div>  
-            
-            {/* <button onClick={this.getcords.bind(this)}>getcords</button> */}
-        
          {this.profileScreen4()}</div>)
     }
 

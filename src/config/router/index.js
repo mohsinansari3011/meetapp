@@ -11,6 +11,9 @@ const Routes = () => (
             <Route path="/maps" component={Screens.MapScreen} />
             <Route path="/directions" component={Screens.directionsScreen} />
             <Route path="/profile" component={Screens.ProfileScreen} />
+            <Route path="/setprofile" component={Screens.SetProfileScreen} />
+            <Route path="/setupmeeting" component={Screens.SetupMeeting} />
+            <Route path="/viewmeetings" component={Screens.ViewMeetings} />
         </div>
     </Router>
 );
