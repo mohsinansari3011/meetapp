@@ -4,13 +4,13 @@ import * as firebase from '../../config/firebase'
 // import { Link } from "react-router-dom";
 //import accepting from "../../images/accept.png"
 //import rejecting from "../../images/deny.png"
-//import defaultimg from '../../images/default.jpg'
+import defaultimg from '../../images/default.jpg'
 
 // import coffeeimg from '../../images/coffee.png'
 // import juiceimg from '../../images/juice.png'
 // import cocktailimg from '../../images/cocktail.png'
 // import profileimg from '../../images/profileimg.jpg'
-// import AddToCalendar from 'react-add-to-calendar'
+ import AddToCalendar from 'react-add-to-calendar'
 //import { Card, CardWrapper } from 'react-swipeable-cards';
 
 
@@ -42,22 +42,16 @@ class ViewMeetings extends Component {
             //const { currentuser } = this.state;
             // console.log(user);
             if (user) {
-                var meetingArray = [];
-                firebase.db.collection("tbluserprofile").get()
+                var userMeeting = [];
+                firebase.db.collection("tblusermeetings").where("useruid", "==", user.uid).get()
                     .then((query) => {
-                        if (query) {
-                            query.forEach((doc) => {
-                                meetingArray.push(doc.data());
-                            });
-                        }
-
-                        if (meetingArray) {
-                            this.setState({ meetData: meetingArray, meetinglist: true });
-                            //console.log(meetingArray);
-                        }
-
-
+                        query.forEach((doc) => {
+                            userMeeting.push(doc.data());
+                        })
+                        this.setState({ userMeeting, booluserMeeting: true });
+                        //console.log(userMeeting, " after");
                     })
+
 
             }
 
@@ -68,7 +62,55 @@ class ViewMeetings extends Component {
 
 
 
-    
+    setUserMeeting() {
+
+        const { userMeeting } = this.state;
+
+
+
+        let icon = { 'calendar-plus-o': 'left' };
+
+        let items = [{ outlook: 'Outlook' },
+        { outlookcom: 'Outlook.com' },
+        { apple: 'Apple Calendar' },
+        { yahoo: 'Yahoo' },
+        { google: 'Google' }
+        ];
+
+
+
+
+        return (userMeeting.map((data, i) => {
+
+            let event = {
+                title: "Meeting B/W " + data.matchername + " and " + data.userdname,
+                description: 'This is the Reminder For Meeting event Orginized by MeetoApp',
+                location: data.venue,
+                startTime: data.date,
+                endTime: data.date
+            };
+
+            return (<div key={i} className="col-md-4">
+                <div className="gallery">
+                    <img src={defaultimg} alt="DefultImage" width="300" height="200" />
+                    <div className="desc">{data.matchername} <br />
+                        {data.venue}<br />
+                        {data.userdname}<br />
+                        {data.status}<br />
+
+                        <AddToCalendar className="btn btn-primary" event={event} buttonLabel="Put on my calendar" buttonTemplate={icon} listItems={items} />
+                    </div>
+                </div>
+
+            </div>);
+        })
+
+
+        );
+        //this.setState({ booluserMeeting: true })
+
+
+    }
 
 
 
@@ -78,8 +120,10 @@ class ViewMeetings extends Component {
     render() {
 
        
-        return (<div> this is ViewMeetings
-            
+        const { booluserMeeting } = this.state
+        console.log(booluserMeeting, " booluserMeeting");
+        return (<div> this is ViewMeetings <br/>
+            {booluserMeeting && this.setUserMeeting()}
         </div>);
     }
 
