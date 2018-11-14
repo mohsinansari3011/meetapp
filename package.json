@@ -10,6 +10,7 @@
     "react-google-maps": "^9.4.5",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
+    "react-web-notification": "^0.3.2",
     "sweetalert": "^2.1.2"
   },
   "scripts": {

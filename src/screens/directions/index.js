@@ -321,9 +321,10 @@ showCalenderscreen(selectedCoords , venue){
             let status = "PENDING";
             let userCoords = {latcord , lngcord}
             let creationtime = Date();
+            let popup = false;
             //console.log(useruid, userdname, status, matchername, matcheruid, selectedCoords, venue, date);
 
-            firebase.db.collection("tblusermeetings").add({ useruid, userdname, matchername, matcheruid, selectedCoords, userCoords, venue, date, status, creationtime})
+            firebase.db.collection("tblusermeetings").add({ useruid, userdname, matchername, matcheruid, selectedCoords, userCoords, venue, date, status, creationtime, popup})
                 .then().catch(err => swal('There was an error:', err, "error"))
 
         } catch (error) {

@@ -64,6 +64,7 @@ clearLocalStorage(){
                 //     });
                   
                 // }
+
                 this.setState({ authenticated: true })
             } else {
                 console.log("User is Logout");

@@ -158,7 +158,7 @@ componentDidMount(){
 
         });
 
-        console.log(ShowMeetingArray, " ShowMeetingArray");
+        
 
         try {
             return (<div> <h1>Select a person for a Meeting!!</h1>
@@ -190,7 +190,7 @@ componentDidMount(){
     render() {
 
         const { meetinglist } = this.state
-        console.log(meetinglist, " meetinglist");
+        //console.log(meetinglist, " meetinglist");
         return (<div> this is SetupMeeting  
             {meetinglist && this.setMeetingListCards()}
         </div>);

@@ -27,7 +27,7 @@ class ViewMeetings extends Component {
             currentuser: '',
             meetinglist: false,
             list: [],
-           
+            booluserMeeting : false,
         };
 
       
@@ -121,7 +121,7 @@ class ViewMeetings extends Component {
 
        
         const { booluserMeeting } = this.state
-        console.log(booluserMeeting, " booluserMeeting");
+        //console.log(booluserMeeting, " booluserMeeting");
         return (<div> this is ViewMeetings <br/>
             {booluserMeeting && this.setUserMeeting()}
         </div>);
