@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
-// import swal from 'sweetalert';
-// import * as firebase from '../../config/firebase'
+//import swal from 'sweetalert';
+import * as firebase from '../../config/firebase'
 // import { Link } from "react-router-dom";
-// import accepting from "../../images/accept.png"
-// import rejecting from "../../images/deny.png"
-// import defaultimg from '../../images/default.jpg'
+//import accepting from "../../images/accept.png"
+//import rejecting from "../../images/deny.png"
+//import defaultimg from '../../images/default.jpg'
 
 // import coffeeimg from '../../images/coffee.png'
 // import juiceimg from '../../images/juice.png'
 // import cocktailimg from '../../images/cocktail.png'
 // import profileimg from '../../images/profileimg.jpg'
 // import AddToCalendar from 'react-add-to-calendar'
-// import { Card, CardWrapper } from 'react-swipeable-cards';
+//import { Card, CardWrapper } from 'react-swipeable-cards';
 
 
-class SetupMeeting extends Component {
+
+
+class ViewMeetings extends Component {
 
 
 
@@ -25,12 +27,48 @@ class SetupMeeting extends Component {
             currentuser: '',
             meetinglist: false,
             list: [],
-            meetData: [],
-            booluserMeeting: false,
+           
         };
 
-
+      
     }
+
+
+
+    componentDidMount() {
+
+        firebase.auth.onAuthStateChanged(user => {
+
+            //const { currentuser } = this.state;
+            // console.log(user);
+            if (user) {
+                var meetingArray = [];
+                firebase.db.collection("tbluserprofile").get()
+                    .then((query) => {
+                        if (query) {
+                            query.forEach((doc) => {
+                                meetingArray.push(doc.data());
+                            });
+                        }
+
+                        if (meetingArray) {
+                            this.setState({ meetData: meetingArray, meetinglist: true });
+                            //console.log(meetingArray);
+                        }
+
+
+                    })
+
+            }
+
+
+        });
+    }
+
+
+
+
+    
 
 
 
@@ -39,9 +77,11 @@ class SetupMeeting extends Component {
 
     render() {
 
-
-        return (<div> this is ViewMeetings  </div>);
+       
+        return (<div> this is ViewMeetings
+            
+        </div>);
     }
 
 }
-export default SetupMeeting;
+export default ViewMeetings;
