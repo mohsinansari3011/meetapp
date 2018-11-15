@@ -147,6 +147,14 @@ AskForRating(){
                                                             rating={3}
                                                             onClick={onPick}
                                                         />
+                                                        <MoodButton
+                                                            rating={4}
+                                                            onClick={onPick}
+                                                        />
+                                                        <MoodButton
+                                                            rating={5}
+                                                            onClick={onPick}
+                                                        />
                                                     </div>
                                                 )
                                             })
