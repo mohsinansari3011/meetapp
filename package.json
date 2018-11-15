@@ -8,6 +8,7 @@
     "react-calendar": "^2.17.5",
     "react-dom": "^16.6.1",
     "react-google-maps": "^9.4.5",
+    "react-redux": "^5.1.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
     "react-web-notification": "^0.3.2",

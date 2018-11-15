@@ -62,7 +62,7 @@ componentDidMount(){
                 }
 
                 if (meetingArray) {
-                    this.setState({ meetData: meetingArray, meetinglist: true });
+                    this.setState({ meetData: meetingArray, meetinglist: true, currentuser : user });
                     //console.log(meetingArray);
                 }
 
@@ -124,15 +124,16 @@ componentDidMount(){
 
     setMeetingListCards() {
 
-        const { meetData } = this.state;
+        const { meetData, currentuser } = this.state;
 
-
+        console.log(currentuser, " currentuser")
         //console.log(meetData," Meetdata");
 
         const ShowMeetingArray = meetData.map((doc) => {
 
 
             return (
+                currentuser.uid !== doc.uid ?
                 <Card
                     key={doc.uid}
                     //onSwipe={this.onSwipe.bind(this, doc.displayname)}
@@ -151,6 +152,7 @@ componentDidMount(){
                     </div>
 
                 </Card>
+                : <div></div>
             );
 
 
