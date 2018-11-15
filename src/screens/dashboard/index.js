@@ -108,14 +108,18 @@ class Dashboard extends Component {
 
                     if (change.type === "added") {
 
+                        if (!change.doc.data().popup) {
+    
+
+
                         if (change.doc.data().matcheruid === currentuser.uid || change.doc.data().useruid === currentuser.uid) {
                             //console.log("New matchername: ", change.doc.data().matchername);
 
-                            // let imuser = false;
+                            let imuser = false;
 
-                            // if (change.doc.data().useruid === currentuser.uid) {
-                            //     imuser = true;
-                            // }
+                            if (change.doc.data().useruid === currentuser.uid) {
+                                imuser = true;
+                            }
 
                             
                             let GivenDate = change.doc.data().date;
@@ -133,12 +137,41 @@ class Dashboard extends Component {
                                     .then((isyes) => {
                                         if (isyes) {
 
+                                            let meetingstatus = change.doc.data().meetingstatus;
+                                          
 
-                                            
+
+                                            if (imuser) {
+
+                                                if (change.doc.data().matcheranswer === "YES") {
+                                                    meetingstatus = "DONE";
+                                                }
+                                                else {
+                                                    meetingstatus = "COMPLICATED";
+                                                }
+
+
+                                                firebase.db.collection("tblusermeetings").doc(change.doc.id).update({
+                                                    useranswer: "YES", meetingstatus
+                                                });
+                                            }else{
+
+                                                if (change.doc.data().useranswer === "YES") {
+                                                    meetingstatus = "DONE";
+                                                }
+                                                else {
+                                                    meetingstatus = "COMPLICATED";
+                                                }
+
+
+                                                firebase.db.collection("tblusermeetings").doc(change.doc.id).update({
+                                                    matcheranswer: "YES", meetingstatus
+                                                });
+                                            }
 
 
                                             swal({
-                                                text: "How was your experience getting help with this issue?",
+                                                text: "How was your experience getting help with this issue?" + imuser,
                                                 buttons: {
                                                     cancel: "Close",
                                                 },
@@ -169,8 +202,45 @@ class Dashboard extends Component {
                                             })
 
                                         } else {
-                                            swal("Your imaginary file is safe!");
+
+
+                                            let meetingstatus = change.doc.data().meetingstatus;
+                                            
+
+
+                                            if (imuser) {
+
+                                                if (change.doc.data().matcheranswer === "NO") {
+                                                    meetingstatus = "CANCELLED";
+                                                }
+                                                else {
+                                                    meetingstatus = "COMPLICATED";
+                                                }
+
+
+                                                firebase.db.collection("tblusermeetings").doc(change.doc.id).update({
+                                                    useranswer: "NO", meetingstatus
+                                                });
+                                            } else {
+
+
+                                                if (change.doc.data().useranswer === "NO") {
+                                                    meetingstatus = "CANCELLED";
+                                                }
+                                                else {
+                                                    meetingstatus = "COMPLICATED";
+                                                }
+
+                                                firebase.db.collection("tblusermeetings").doc(change.doc.id).update({
+                                                    matcheranswer: "NO", meetingstatus
+                                                });
+                                            }
+
+                                            //swal("Your imaginary file is safe!");
                                         }
+
+                                        
+                                        
                                     });
 
 
@@ -180,7 +250,7 @@ class Dashboard extends Component {
                             }
                         }
 
-
+                    }
                     }
                 });
             });
