@@ -96,7 +96,7 @@ class ViewMeetings extends Component {
                     <div className="desc">{data.matchername} <br />
                         {data.venue}<br />
                         {data.userdname}<br />
-                        {data.status}<br />
+                        {data.meetingstatus}<br />
 
                         <AddToCalendar className="btn btn-primary" event={event} buttonLabel="Put on my calendar" buttonTemplate={icon} listItems={items} />
                     </div>

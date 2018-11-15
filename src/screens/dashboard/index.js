@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 
 
 
-const onPick = value => {
+const onPick = (value,data) => {
     swal("Thanks for your rating!", `You rated us ${value}/5`, "success")
 }
 
@@ -44,7 +44,7 @@ class Dashboard extends Component {
         };
 
       
-        this.AskForRating = this.AskForRating.bind(this);
+        
     }
 
 
@@ -92,9 +92,7 @@ class Dashboard extends Component {
     }
 
 
-AskForRating(){
-   
-}
+
 
 
     PostMeetingPopup(currentuser){
@@ -113,6 +111,13 @@ AskForRating(){
                         if (change.doc.data().matcheruid === currentuser.uid || change.doc.data().useruid === currentuser.uid) {
                             //console.log("New matchername: ", change.doc.data().matchername);
 
+                            // let imuser = false;
+
+                            // if (change.doc.data().useruid === currentuser.uid) {
+                            //     imuser = true;
+                            // }
+
+                            
                             let GivenDate = change.doc.data().date;
                             let CurrentDate = new Date();
                             GivenDate = new Date(GivenDate);
@@ -127,6 +132,10 @@ AskForRating(){
                                 })
                                     .then((isyes) => {
                                         if (isyes) {
+
+
+                                            
+
 
                                             swal({
                                                 text: "How was your experience getting help with this issue?",
