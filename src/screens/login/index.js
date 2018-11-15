@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import * as firebase from '../../config/firebase'
 import { connect } from 'react-redux'
+//import { createStore } from 'redux'
+
 
 const providerx = firebase.provider;
 
@@ -130,17 +132,18 @@ render() {
 }
 
 
-const mapStateToProps = (state) => {
-    return {
-        user: state.authReducers.user
-    }
-}
+// const mapStateToProps = (state) => {
+//     return {
+//         user: state.authReducers.user
+//     }
+// }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
+// const mapDispatchToProps = (dispatch) => {
+//     return {
 
-    }
-}
+//     }
+// }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(login);
+export default login;
+//export default connect(mapStateToProps, mapDispatchToProps)(login)
