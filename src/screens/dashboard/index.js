@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 //import swal from 'sweetalert';
+import swal from '@sweetalert/with-react';
 import * as firebase from '../../config/firebase'
 // import coffeeimg from '../../images/coffee.png'
 // import juiceimg from '../../images/juice.png'
@@ -12,17 +13,20 @@ import { Link } from "react-router-dom";
 
 
 
-firebase.db.collection("tblusermeetings").where("status", "==", "PENDING").orderBy("creationtime", "desc")
-    .onSnapshot(function (snapshot) {
-        snapshot.docChanges().forEach(function (change) {
-            if (change.type === "added") {
 
-                
-                
-                console.log("New matchername: ", change.doc.data().matchername);
-            }
-        });
-    });
+
+
+const onPick = value => {
+    swal("Thanks for your rating!", `You rated us ${value}/3`, "success")
+}
+
+const MoodButton = ({ rating, onClick }) => (
+    <button
+        data-rating={rating}
+        className="mood-btn"
+        onClick={() => onClick(rating)}
+    />
+)
 
 
     
@@ -40,7 +44,7 @@ class Dashboard extends Component {
         };
 
       
-       
+        this.AskForRating = this.AskForRating.bind(this);
     }
 
 
@@ -88,15 +92,94 @@ class Dashboard extends Component {
     }
 
 
+AskForRating(){
+   
+}
 
-    
+
+    PostMeetingPopup(currentuser){
+
+        firebase.db.collection("tblusermeetings").where("status", "==", "PENDING").orderBy("creationtime", "desc")
+            .onSnapshot(function (snapshot) {
+                snapshot.docChanges().forEach(function (change) {
+
+                    // console.log("New matchername1: ", change.doc.data().matchername);
+                    // console.log("New matcheruid1: ", change.doc.data().matcheruid);
+                    // console.log("New useruid1: ", change.doc.data().useruid);
+                    // console.log("New currentuser.uid: ", currentuser.uid);
+
+                    if (change.type === "added") {
+
+                        if (change.doc.data().matcheruid === currentuser.uid || change.doc.data().useruid === currentuser.uid) {
+                            //console.log("New matchername: ", change.doc.data().matchername);
+
+                            let GivenDate = change.doc.data().date;
+                            let CurrentDate = new Date();
+                            GivenDate = new Date(GivenDate);
+
+                            if (CurrentDate > GivenDate) {
+
+                                swal({
+                                    title: "Meeting",
+                                    text: "Was the meeting successful?",
+                                    icon: "info",
+                                    buttons: ["No", "Yes"],
+                                })
+                                    .then((isyes) => {
+                                        if (isyes) {
+
+                                            swal({
+                                                text: "How was your experience getting help with this issue?",
+                                                buttons: {
+                                                    cancel: "Close",
+                                                },
+                                                content: (
+                                                    <div>
+                                                        <MoodButton
+                                                            rating={1}
+                                                            onClick={onPick}
+                                                        />
+                                                        <MoodButton
+                                                            rating={2}
+                                                            onClick={onPick}
+                                                        />
+                                                        <MoodButton
+                                                            rating={3}
+                                                            onClick={onPick}
+                                                        />
+                                                    </div>
+                                                )
+                                            })
+
+                                        } else {
+                                            swal("Your imaginary file is safe!");
+                                        }
+                                    });
+
+
+                                console.log('Given date is not greater than the current date.');
+                            } else {
+                                console.log('Given date is  greater than the current date.');
+                            }
+                        }
+
+
+                    }
+                });
+            });
+    }
 
 
 
 
     render() {
-      
         const { currentuser } = this.state;
+
+        if (currentuser) {
+            this.PostMeetingPopup(currentuser);
+        }
+
+        
         let styles = { width: "-webkit-fill-available" }
         return (<div> <h1> Dashboard </h1>
             

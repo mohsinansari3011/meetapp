@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as firebase from '../../config/firebase'
-import { connect } from 'react-redux'
+//import { connect } from 'react-redux'
 //import { createStore } from 'redux'
 
 
