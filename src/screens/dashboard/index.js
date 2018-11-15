@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 
 
 const onPick = value => {
+    swal("Thanks for your rating!", `You rated us ${value}/5`, "success")
 }
 
 const MoodButton = ({ rating, onClick }) => (
