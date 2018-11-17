@@ -93,6 +93,34 @@ class Dashboard extends Component {
 
 
 
+    RequestPopup(currentuser){
+
+        setTimeout(function(){  
+
+        firebase.db.collection("tblusermeetings").where("status", "==", "PENDING").orderBy("creationtime", "desc")
+            .onSnapshot(function (snapshot) {
+                snapshot.docChanges().forEach(function (change) {
+
+                    // console.log("New matchername1: ", change.doc.data().matchername);
+                    // console.log("New matcheruid1: ", change.doc.data().matcheruid);
+                    // console.log("New useruid1: ", change.doc.data().useruid);
+                    // console.log("New currentuser.uid: ", currentuser.uid);
+
+                    if (change.type === "added") {
+
+                        if (change.doc.data().status == "PENDING") {
+                            if (change.doc.data().matcheruid === currentuser.uid) {
+                               
+                                swal("You have a new Request on requet tab")
+                            }
+
+                    }
+                    }
+                });
+            });
+
+        }, 7000);
+    }
 
 
     PostMeetingPopup(currentuser){
@@ -263,7 +291,9 @@ class Dashboard extends Component {
         const { currentuser } = this.state;
 
         if (currentuser) {
+            
             this.PostMeetingPopup(currentuser);
+            this.RequestPopup(currentuser);
         }
 
         
@@ -284,7 +314,9 @@ class Dashboard extends Component {
             </div> <br/> <div className="col-md-12">
                 <Link to="/viewmeetings"> <input style={styles} className="btn btn-primary" type="button" value="View Meetings" /> </Link>
             </div>
-
+            <br/> <div className="col-md-12">
+                <Link to="/requests"> <input style={styles} className="btn btn-primary" type="button" value="View Requests" /> </Link>
+            </div>
             </div>);
     }
 

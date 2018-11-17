@@ -6,8 +6,10 @@ import ProfileScreen from '../screens/profile'
 import SetProfileScreen from '../screens/setprofile'
 import SetupMeeting from '../screens/setupmeeting'
 import ViewMeetings from '../screens/viewmeetings'
+import ViewRequests from '../screens/requests'
 
 export {
     LoginScreen, DashboardScreen, MapScreen, directionsScreen,
-    ProfileScreen, SetProfileScreen, SetupMeeting, ViewMeetings
+    ProfileScreen, SetProfileScreen, SetupMeeting, ViewMeetings,
+    ViewRequests
 }
