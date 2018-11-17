@@ -111,7 +111,7 @@ class Dashboard extends Component {
                         if (change.doc.data().status === "PENDING") {
                             if (change.doc.data().matcheruid === currentuser.uid) {
                                
-                                swal("You have a new Request on requet tab", index)
+                                swal("You have a new Request on requet tab")
                             }
 
                     }
@@ -158,7 +158,7 @@ class Dashboard extends Component {
 
                                 swal({
                                     title: "Meeting",
-                                    text: "Was the meeting successful?" + index,
+                                    text: "Was the meeting successful?",
                                     icon: "info",
                                     buttons: ["No", "Yes"],
                                 })
