@@ -99,7 +99,7 @@ class Dashboard extends Component {
 
         firebase.db.collection("tblusermeetings").where("status", "==", "PENDING").orderBy("creationtime", "desc")
             .onSnapshot(function (snapshot) {
-                snapshot.docChanges().forEach(function (change) {
+                snapshot.docChanges().forEach(function (change , index) {
 
                     // console.log("New matchername1: ", change.doc.data().matchername);
                     // console.log("New matcheruid1: ", change.doc.data().matcheruid);
@@ -108,10 +108,10 @@ class Dashboard extends Component {
 
                     if (change.type === "added") {
 
-                        if (change.doc.data().status == "PENDING") {
+                        if (change.doc.data().status === "PENDING") {
                             if (change.doc.data().matcheruid === currentuser.uid) {
                                
-                                swal("You have a new Request on requet tab")
+                                swal("You have a new Request on requet tab", index)
                             }
 
                     }
@@ -125,9 +125,9 @@ class Dashboard extends Component {
 
     PostMeetingPopup(currentuser){
 
-        firebase.db.collection("tblusermeetings").where("status", "==", "PENDING").orderBy("creationtime", "desc")
+        firebase.db.collection("tblusermeetings").where("meetingstatus", "==", "PENDING").orderBy("creationtime", "desc")
             .onSnapshot(function (snapshot) {
-                snapshot.docChanges().forEach(function (change) {
+                snapshot.docChanges().forEach(function (change, index) {
 
                     // console.log("New matchername1: ", change.doc.data().matchername);
                     // console.log("New matcheruid1: ", change.doc.data().matcheruid);
@@ -158,7 +158,7 @@ class Dashboard extends Component {
 
                                 swal({
                                     title: "Meeting",
-                                    text: "Was the meeting successful?",
+                                    text: "Was the meeting successful?" + index,
                                     icon: "info",
                                     buttons: ["No", "Yes"],
                                 })
