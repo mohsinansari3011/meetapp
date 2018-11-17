@@ -272,9 +272,9 @@ class Dashboard extends Component {
                                     });
 
 
-                                console.log('Given date is not greater than the current date.');
+                                //console.log('Given date is not greater than the current date.');
                             } else {
-                                console.log('Given date is  greater than the current date.');
+                                //console.log('Given date is  greater than the current date.');
                             }
                         }
 

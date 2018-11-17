@@ -46,7 +46,11 @@ class Requests extends Component {
                 firebase.db.collection("tblusermeetings").where("matcheruid", "==", user.uid).get()
                     .then((query) => {
                         query.forEach((doc) => {
-                            rquestlist.push(doc);
+
+                            if (doc.data().status === "PENDING") {
+                                rquestlist.push(doc);
+                            }
+                           
                             //console.log(doc.data());
                         })
                         this.setState({ rquestlist, GetRequests: true });
@@ -64,7 +68,7 @@ class Requests extends Component {
     confirmRequest(docid){
 
 
-    console.log(docid);
+    //console.log(docid);
 
         firebase.db.collection("tblusermeetings").doc(docid).update({ 
         status : "ACCEPTED",
