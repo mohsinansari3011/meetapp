@@ -10,7 +10,7 @@ import defaultimg from '../../images/default.jpg'
 // import juiceimg from '../../images/juice.png'
 // import cocktailimg from '../../images/cocktail.png'
 // import profileimg from '../../images/profileimg.jpg'
- import AddToCalendar from 'react-add-to-calendar'
+// import AddToCalendar from 'react-add-to-calendar'
 //import { Card, CardWrapper } from 'react-swipeable-cards';
 
 
@@ -46,8 +46,8 @@ class Requests extends Component {
                 firebase.db.collection("tblusermeetings").where("matcheruid", "==", user.uid).get()
                     .then((query) => {
                         query.forEach((doc) => {
-                            rquestlist.push(doc.data());
-                            rquestlist.push(doc.id);
+                            rquestlist.push(doc);
+                            //console.log(doc.data());
                         })
                         this.setState({ rquestlist, GetRequests: true });
                         //console.log(userMeeting, " after");
@@ -61,12 +61,17 @@ class Requests extends Component {
     }
 
 
-confirmRequest(uid){
+    confirmRequest(docid){
 
 
-    console.log(uid);
+    console.log(docid);
 
-    ///firebase.db.collection("tbluserprofile").doc(docid).update({  });
+        firebase.db.collection("tblusermeetings").doc(docid).update({ 
+        status : "ACCEPTED",
+            popup : true
+     });
+
+        
 
 
 }
@@ -84,21 +89,20 @@ confirmRequest(uid){
 
         return (rquestlist.map((data, i) => {
 
-            
-
+            // console.log(dat.data());
             return (<div key={i} className="col-md-4">
                 <div className="gallery">
                     <img src={defaultimg} alt="DefultImage" width="300" height="200" />
                     <div className="desc">
                     
-                      Name :  {data.matchername} <br />
-                       Vemeue :  {data.venue}<br />
-                       Send Request by : {data.userdname}<br />
+                        Name :  {data.data().matchername} <br />
+                        Vemeue :  {data.data().venue}<br />
+                        Send Request by : {data.data().userdname}<br />
                         Duration 20Min<br />
-                       Status : {data.status}<br />
+                        Status : {data.data().status}<br />
                     </div>
 
-                    <input value="Confirm Request" className="btn btn-primary" onClick={this.confirmRequest.bind(this , data)} />
+                    <input value="Confirm Request" className="btn btn-primary" onClick={this.confirmRequest.bind(this , data.id)} />
               </div>
 
             </div>);
