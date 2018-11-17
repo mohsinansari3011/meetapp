@@ -3,7 +3,7 @@ import './App.css';
 import * as firebase from './config/firebase'
 import logo from './logo.svg';
 import Routes from './config/router'
-
+import Background from './images/background.jpg'
 
 //const providerx = firebase.provider;
 
@@ -54,20 +54,30 @@ constructor(prop){
   
 
 	 
-	  
+	  let bgimage = { backgroundImage: `url(${Background})` }
 
 	  return (
+
+		
 		  <div className="App">
 			  <header className="App-header-a">
 				  <img src={logo} className="App-logo" alt="logo" />
 				  <h1 className="App-title">Meetoo App</h1>
+				  <button class="btn btn-primary"  onClick={this.logout}><i class="fa fa-close"></i>Logout</button>
 			  </header>
-			  <div className="container">
+			  <div className="container" style={bgimage}>
 				
+			
 					  <Routes />
-				 
+				
 				
 			  </div>
+
+
+			  <footer className="App-header-a">
+				  <h1 className="App-title">Meetoo App</h1>
+			  </footer>
+
 		  </div>
 	  )
   }
